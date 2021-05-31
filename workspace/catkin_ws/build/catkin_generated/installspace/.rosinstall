@@ -1,0 +1,2 @@
+- setup-file:
+    local-name: /home/jeonghyun/udacity_ROS/workspace/catkin_ws/install/setup.sh
