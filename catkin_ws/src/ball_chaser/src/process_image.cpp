@@ -16,7 +16,7 @@ void drive_robot(float lin_x, float ang_z)
 	ball_chaser::DriveToTarget srv;
 	srv.request.linear_x = lin_x;
 	srv.request.angular_z = ang_z;
-	
+
 	if (!client.call(srv))
         ROS_ERROR("Failed to call service safe_move");
 }
@@ -27,13 +27,13 @@ void process_image_callback(const sensor_msgs::Image img)
 
 	int white_pixel = 255;
 	int height = img.height;
-	int step = img.width;	
+	int width = img.width;
 	int z;
 	ROS_INFO_STREAM("Image Processing");
-	for(int j = 0; j < height * step; ++j){
-		ROS_INFO_STREAM(img.data[j]);
-		if(img.data[j] == white_pixel){
-			z = 0.785 * abs(step/2-(j%step)) / step * 2;
+	for(int j = 0; j < 640000; j = j+3){
+		ros::Duration(0.1).sleep();
+		if(img.data[j] == white_pixel && img.data[j+1] == white_pixel && img.data[j+2] == white_pixel){
+			z = 0.785 * abs(width/2-(j%width)) / width * 2;
 			drive_robot(30,z);
 			ros::Duration(3).sleep();
 			ROS_INFO_STREAM("Ball detected.");
@@ -44,8 +44,6 @@ void process_image_callback(const sensor_msgs::Image img)
 			
 		}
 	}
-
-	
     // TODO: Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
