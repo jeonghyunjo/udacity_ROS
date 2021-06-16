@@ -30,33 +30,24 @@ void process_image_callback(const sensor_msgs::Image img)
 	int width = img.width;
 	int step = img.step;
 	int dummy;
-	ROS_INFO_STREAM(img.data[320000]);
-	ROS_INFO_STREAM(img.data[320001]);
-	ROS_INFO_STREAM(img.data[320002]);
 	ROS_INFO_STREAM("Image Processing");
 
 	for(int j = 0; j < height * step; j = j+3){
-		ROS_INFO_STREAM("For Loop");
 		if(img.data[j] == white_pixel && img.data[j+1] == white_pixel && img.data[j+2] == white_pixel){
 			dummy = (j%2400);
 
-			if(dummy < 800){
-			drive_robot(3,1);
-			}else if(dummy >=800 && dummy < 1600){
-			drive_robot(3,0);
+			if(dummy < 1000){
+			drive_robot(.1,0.3);
+			}else if(dummy >=1000 && dummy < 1400){
+			drive_robot(.1,0);
 			}else{
-			drive_robot(3,-1);
+			drive_robot(.1,-0.3);
 			}
-
-			ros::Duration(3).sleep();
 			ROS_INFO_STREAM("Ball detected.");
-			break;
-		}else{
-			drive_robot(0,0);
 			break;
 		}
 	}
-	ros::Duration(3).sleep();
+
     // TODO: Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
     // Depending on the white ball position, call the drive_bot function and pass velocities to it
