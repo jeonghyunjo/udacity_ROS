@@ -7,3 +7,8 @@ Project2 - Go Chase it!
 If there is not the ball detected, the robot will stop moving.
 Robot has Lidar and Camera sensors. Camera detects exactly white ball. (RGB = [255, 255, 255])
 Lidar sensor is used to scan the walls and objects in the world file.
+
+https://youtu.be/ToNtDWzSrhg
+
+Project3 - Where Am I?
+: 
