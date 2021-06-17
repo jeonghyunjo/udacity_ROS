@@ -30,23 +30,29 @@ void process_image_callback(const sensor_msgs::Image img)
 	int width = img.width;
 	int step = img.step;
 	int dummy;
+	int checker = 0;
 	ROS_INFO_STREAM("Image Processing");
 
 	for(int j = 0; j < height * step; j = j+3){
 		if(img.data[j] == white_pixel && img.data[j+1] == white_pixel && img.data[j+2] == white_pixel){
+			checker = 1;
+			ROS_INFO_STREAM("Ball detected.");
 			dummy = (j%2400);
 
 			if(dummy < 1000){
-			drive_robot(.1,0.3);
+			drive_robot(.2,0.3);
 			}else if(dummy >=1000 && dummy < 1400){
-			drive_robot(.1,0);
+			drive_robot(.2,0);
 			}else{
-			drive_robot(.1,-0.3);
+			drive_robot(.2,-0.3);
 			}
-			ROS_INFO_STREAM("Ball detected.");
+				
 			break;
 		}
+		checker = 0;
 	}
+	if (checker == 0)
+		drive_robot(0,0);
 
     // TODO: Loop through each pixel in the image and check if there's a bright white one
     // Then, identify if this pixel falls in the left, mid, or right side of the image
